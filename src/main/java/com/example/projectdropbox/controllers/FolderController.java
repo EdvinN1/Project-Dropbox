@@ -1,24 +1,21 @@
 package com.example.projectdropbox.controllers;
 
+import com.example.projectdropbox.models.File;
 import com.example.projectdropbox.models.Folder;
 import com.example.projectdropbox.models.User;
+import com.example.projectdropbox.services.FileService;
 import com.example.projectdropbox.services.FolderService;
 import com.example.projectdropbox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/folders")
 public class FolderController {
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private FolderService folderService;

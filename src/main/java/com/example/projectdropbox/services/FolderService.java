@@ -1,5 +1,6 @@
 package com.example.projectdropbox.services;
 
+import com.example.projectdropbox.FolderNotFoundException;
 import com.example.projectdropbox.models.Folder;
 import com.example.projectdropbox.models.User;
 import com.example.projectdropbox.repositories.FolderRepository;
@@ -25,4 +26,9 @@ public class FolderService {
         // Spara mappen i databasen
         folderRepository.save(folder);
     }
+    public Folder getFolderById(int folderId) {
+        return folderRepository.findById(folderId)
+                .orElseThrow(() -> new FolderNotFoundException("Folder not found with id: " + folderId));
+    }
+
 }
