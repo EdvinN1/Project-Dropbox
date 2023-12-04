@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/test").hasRole("ADMIN")
                         .requestMatchers("/new").authenticated()
                         .requestMatchers("/folders/create").authenticated()
+                        .requestMatchers("/files/upload").authenticated()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").permitAll());
 

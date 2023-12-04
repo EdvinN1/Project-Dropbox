@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "dropboxFolders")
 @Getter
 @Setter
@@ -17,6 +20,9 @@ public class Folder {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
+
+    @OneToMany(mappedBy = "folder")
+    private List<File> files = new ArrayList<>();
 
 
     // Lägg till eventuella ytterligare attribut som du behöver
