@@ -1,5 +1,6 @@
 package com.example.projectdropbox.services;
 
+import com.example.projectdropbox.UsernameAlreadyExistsException;
 import com.example.projectdropbox.models.User;
 import com.example.projectdropbox.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
