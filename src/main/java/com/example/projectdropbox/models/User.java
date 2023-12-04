@@ -23,6 +23,9 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> authorities;
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    private List<Folder> folders;
+
     public User(String username, String password, List<String> authorities) {
         this.username = username;
         this.password = password;

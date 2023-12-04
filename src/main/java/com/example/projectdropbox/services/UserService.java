@@ -33,6 +33,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameAlreadyExistsException("Username already exists");
         }
 
+
         // Create a new user entity
         User newUser = new User();
         newUser.setUsername(username);
@@ -45,7 +46,9 @@ public class UserService implements UserDetailsService {
         return new User(newUser.getUsername(), newUser.getPassword(), Collections.emptyList());
     }
 
-
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
 
 
     @Override
