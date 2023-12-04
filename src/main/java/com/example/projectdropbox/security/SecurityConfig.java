@@ -32,8 +32,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/test").hasRole("ADMIN")
                         .requestMatchers("/new").authenticated()
+                        .requestMatchers("/folders/create").authenticated()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").permitAll());
+
 
         return security.build();
     }
