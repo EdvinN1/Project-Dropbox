@@ -2,6 +2,7 @@ package com.example.projectdropbox.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.projectdropbox.UsernameAlreadyExistsException;
 import com.example.projectdropbox.models.User;
 import com.example.projectdropbox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class UserController {
     private AuthenticationProvider authProvider;
     private final UserService userService;
     @Autowired
-    public TestController(AuthenticationProvider authProvider, UserService userService) {
+    public UserController(AuthenticationProvider authProvider, UserService userService) {
         this.authProvider = authProvider;
         this.userService = userService;;
     }
