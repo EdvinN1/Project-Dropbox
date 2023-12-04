@@ -1,5 +1,6 @@
 package com.example.projectdropbox.security;
 
+import com.example.projectdropbox.JWTVerifyFilter;
 import com.example.projectdropbox.repositories.UserRepository;
 import com.example.projectdropbox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
