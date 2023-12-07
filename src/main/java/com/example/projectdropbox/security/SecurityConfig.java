@@ -34,6 +34,8 @@ public class SecurityConfig {
                         .requestMatchers("/new").authenticated()
                         .requestMatchers("/folders/create").authenticated()
                         .requestMatchers("/files/upload").authenticated()
+                        .requestMatchers("/files/files").permitAll()
+                        .requestMatchers("/files/folder/{folderId}").authenticated()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").permitAll());
 
