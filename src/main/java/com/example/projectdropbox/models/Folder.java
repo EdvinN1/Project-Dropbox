@@ -15,7 +15,7 @@ public class Folder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String folderName;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
