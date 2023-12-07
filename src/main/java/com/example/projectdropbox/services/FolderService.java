@@ -20,7 +20,7 @@ public class FolderService {
     public void createFolder(String folderName, User owner) {
         // Skapa en ny mapp
         Folder folder = new Folder();
-        folder.setName(folderName);
+        folder.setFolderName(folderName);
         folder.setOwner(owner);
 
         // Spara mappen i databasen

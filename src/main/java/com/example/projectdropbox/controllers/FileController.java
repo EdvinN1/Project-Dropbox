@@ -1,5 +1,7 @@
 package com.example.projectdropbox.controllers;
 
+import com.example.projectdropbox.DTOs.FileDTO;
+import com.example.projectdropbox.DTOs.FolderDTO;
 import com.example.projectdropbox.models.File;
 import com.example.projectdropbox.models.Folder;
 import com.example.projectdropbox.models.User;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,26 +62,33 @@ public class FileController {
 
     @GetMapping("/folder/{folderId}")
     @Transactional
-    public ResponseEntity<List<String>> getFilesInFolder(@PathVariable int folderId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<FolderDTO> getFilesInFolder(@PathVariable int folderId, @AuthenticationPrincipal User user) {
         try {
             // Hämta mappen och kontrollera om användaren äger den
             Folder folder = folderService.getFolderById(folderId);
             if (!folder.getOwner().equals(user)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(Collections.singletonList("You don't have permission to access files in this folder."));
+                        .body(null);
             }
 
-            // Hämta filnamnen i mappen
-            List<String> fileNames = folder.getFiles().stream()
-                    .map(File::getFileName)
+            // Hämta filinformationen i mappen som FileDTO
+            List<FileDTO> fileDTOs = folder.getFiles().stream()
+                    .map(file -> new FileDTO(file.getId(), file.getFileName(), file.getFileSize(), file.getCreatedDate(), getBase64Content(file)))
                     .collect(Collectors.toList());
 
-            return ResponseEntity.ok(fileNames);
+            // Skapa FolderDTO och returnera
+            FolderDTO folderDTO = new FolderDTO(folder.getId(), folder.getFolderName(), fileDTOs);
+            return ResponseEntity.ok(folderDTO);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonList("Failed to retrieve files from the folder. " + e.getMessage()));
+                    .body(null);
         }
+    }
+
+    private String getBase64Content(File file) {
+        // Här konverterar du filinnehållet till Base64-kodning
+        return Base64.getEncoder().encodeToString(file.getContent());
     }
     @GetMapping("/files")
     public ResponseEntity<List<String>> getAllFiles() {
