@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .addFilterAfter(new JWTVerifyFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/folders/create").authenticated()
+                        .requestMatchers("/folders/username").authenticated()
                         .requestMatchers("/files/upload").authenticated()
                         .requestMatchers("/files/files").permitAll()
                         .requestMatchers("/files/folder/{folderId}").authenticated()

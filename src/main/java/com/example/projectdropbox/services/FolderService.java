@@ -7,6 +7,8 @@ import com.example.projectdropbox.repositories.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FolderService {
 
@@ -30,5 +32,7 @@ public class FolderService {
         return folderRepository.findById(folderId)
                 .orElseThrow(() -> new FolderNotFoundException("Folder not found with id: " + folderId));
     }
-
+    public List<Folder> getFoldersByUserUsername(String username) {
+        return folderRepository.findByOwnerUsername(username);
+    }
 }

@@ -13,7 +13,6 @@ public class FileDTO {
     private int fileId;
     private String fileName;
     private Long fileSize;
-    private Date createdDate;
     private String fileDownloadLink;
 }
 

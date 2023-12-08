@@ -35,7 +35,6 @@ public class FileController {
     @Autowired
     private FolderService folderService;
 
-
     @PostMapping("/upload")
     @Transactional
     public ResponseEntity<String> uploadFile(
@@ -43,8 +42,10 @@ public class FileController {
             @RequestParam MultipartFile file,
             @AuthenticationPrincipal User user) {
         try {
-            // Check if the user owns the folder
+            // Hitta mappen
             Folder folder = folderService.getFolderById(folderId);
+
+            // Kontrollera om användaren äger mappen
             if (!folder.getOwner().equals(user)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body("You don't have permission to upload files to this folder.");
@@ -64,7 +65,6 @@ public class FileController {
                     .body("Failed to upload file. " + e.getMessage());
         }
     }
-
     @GetMapping("/folder/{folderId}")
     @Transactional
     public ResponseEntity<FolderDTO> getFilesInFolder(@PathVariable int folderId, @AuthenticationPrincipal User user) {
@@ -77,7 +77,7 @@ public class FileController {
 
             // Hämta filinformationen i mappen som FileDTO med länkar för att visa innehåll
             List<FileDTO> fileDTOs = folder.getFiles().stream()
-                    .map(file -> new FileDTO(file.getId(), file.getFileName(), file.getFileSize(), file.getCreatedDate(), getFileDownloadLink(file)))
+                    .map(file -> new FileDTO(file.getId(), file.getFileName(), file.getFileSize(), getFileDownloadLink(file)))
                     .collect(Collectors.toList());
 
             // Skapa FolderDTO och returnera
@@ -86,35 +86,16 @@ public class FileController {
 
             FolderDTO folderDTO = new FolderDTO(folder.getId(), folderName, fileDTOs);
 
-
-
             return ResponseEntity.ok(folderDTO);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
     private String getFileDownloadLink(File file) {
         // Generera en länk för att ladda ner filen
         return "/files/download/" + file.getId();
     }
-    @GetMapping("/files")
-    public ResponseEntity<List<FileDTO>> getAllFiles() {
-        try {
-            List<File> files = fileService.getAllFiles();
-            List<FileDTO> fileDTOs = files.stream()
-                    .map(file -> new FileDTO(file.getId(), file.getFileName(), file.getFileSize(), file.getCreatedDate(), getFileDownloadLink(file)))
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(fileDTOs);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonList(new FileDTO(0, "Failed to retrieve files. " + e.getMessage(), null, null, null)));
-        }
-    }
-
     @DeleteMapping("/delete/{fileId}")
     @Transactional
     public ResponseEntity<String> deleteFile(
@@ -140,16 +121,18 @@ public class FileController {
                     .body("Failed to delete file. " + e.getMessage());
         }
     }
+    // När man laddar ner filen i Postman (när man är autentiserad), får man en lång rad med tecken.
+    // Man behöver klicka på "Save response to file" för att spara filen på datorn.
     @GetMapping("/download/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable int fileId) {
         try {
-            // Hämta filen från databasen baserat på fil-ID
+            // Hämtar filen från databasen baserat på fil-ID
             File file = fileService.getFileById(fileId);
 
-            // Skapa en ByteArrayResource från filens innehåll
+            // Skapar en ByteArrayResource från filens innehåll
             ByteArrayResource resource = new ByteArrayResource(file.getContent());
 
-            // Returnera en ResponseEntity med filen och HTTP-headers för nedladdning
+            // Returnerar en ResponseEntity med filen och HTTP-headers för nedladdning
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFileName())
                     .contentLength(file.getContent().length)
@@ -160,6 +143,4 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
-    // Add more methods for file-related operations (download, delete, etc.)
 }
