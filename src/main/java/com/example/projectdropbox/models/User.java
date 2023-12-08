@@ -32,11 +32,7 @@ public class User implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
-
-    public User() {
-
-    }
-
+    public User() {}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         var list = new ArrayList<SimpleGrantedAuthority>();
@@ -44,10 +40,8 @@ public class User implements UserDetails {
         for (var authority : this.authorities) {
             list.add(new SimpleGrantedAuthority(authority));
         }
-
         return list;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;

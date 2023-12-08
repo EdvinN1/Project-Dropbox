@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
-import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,15 +122,21 @@ public class FileController {
     // När man laddar ner filen i Postman (när man är autentiserad), får man en lång rad med tecken.
     // Man behöver klicka på "Save response to file" för att spara filen på datorn.
     @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int fileId) {
+    public ResponseEntity<Resource> downloadFile(@PathVariable int fileId, @AuthenticationPrincipal User user) {
         try {
-            // Hämtar filen från databasen baserat på fil-ID
+            // Hämta filen från databasen baserat på fil-ID
             File file = fileService.getFileById(fileId);
 
-            // Skapar en ByteArrayResource från filens innehåll
+            // Kontrollera om användaren äger mappen där filen finns
+            if (!file.getFolder().getOwner().equals(user)) {
+                String errorMessage = "You don't have permission to download this file.";
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ByteArrayResource(errorMessage.getBytes()));
+            }
+
+            // Skapa en ByteArrayResource från filens innehåll
             ByteArrayResource resource = new ByteArrayResource(file.getContent());
 
-            // Returnerar en ResponseEntity med filen och HTTP-headers för nedladdning
+            // Returnera en ResponseEntity med filen och HTTP-headers för nedladdning
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFileName())
                     .contentLength(file.getContent().length)

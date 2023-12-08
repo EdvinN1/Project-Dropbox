@@ -18,7 +18,6 @@ public class Folder {
 
     private String folderName;
 
-
     private Date date;
 
     @ManyToOne

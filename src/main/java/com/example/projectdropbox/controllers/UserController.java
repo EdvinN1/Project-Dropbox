@@ -2,20 +2,12 @@ package com.example.projectdropbox.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.projectdropbox.UsernameAlreadyExistsException;
-import com.example.projectdropbox.models.Folder;
-import com.example.projectdropbox.models.User;
-import com.example.projectdropbox.services.FolderService;
+import com.example.projectdropbox.Exceptions.UsernameAlreadyExistsException;
 import com.example.projectdropbox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class UserController {
@@ -50,7 +42,6 @@ public class UserController {
 
             return token;
         }
-
         return "Failed to login.";
     }
 }

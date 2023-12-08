@@ -1,4 +1,4 @@
-package com.example.projectdropbox;
+package com.example.projectdropbox.Exceptions;
 
 public class UsernameAlreadyExistsException extends RuntimeException {
 

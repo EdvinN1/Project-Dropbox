@@ -1,6 +1,6 @@
 package com.example.projectdropbox.services;
 
-import com.example.projectdropbox.UsernameAlreadyExistsException;
+import com.example.projectdropbox.Exceptions.UsernameAlreadyExistsException;
 import com.example.projectdropbox.models.User;
 import com.example.projectdropbox.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameAlreadyExistsException("Username already exists");
         }
 
-
         // Create a new user entity
         User newUser = new User();
         newUser.setUsername(username);
@@ -45,8 +44,6 @@ public class UserService implements UserDetailsService {
 
         return new User(newUser.getUsername(), newUser.getPassword(), Collections.emptyList());
     }
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException(""));

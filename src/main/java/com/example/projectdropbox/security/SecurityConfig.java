@@ -33,7 +33,6 @@ public class SecurityConfig {
                         .requestMatchers("/folders/create").authenticated()
                         .requestMatchers("/folders/username").authenticated()
                         .requestMatchers("/files/upload").authenticated()
-                        .requestMatchers("/files/files").permitAll()
                         .requestMatchers("/files/folder/{folderId}").authenticated()
                         .requestMatchers("/files/delete/{fileId}").authenticated()
                         .requestMatchers("/files/download/{fileId}").authenticated()

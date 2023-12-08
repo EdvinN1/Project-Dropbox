@@ -7,7 +7,6 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -44,8 +43,6 @@ public class FileService {
         return fileRepository.findById(fileId)
                 .orElseThrow(() -> new FileNotFoundException("File not found with id: " + fileId));
     }
-
-
     @Transactional
     public void deleteFile(File file) {
         fileRepository.delete(file);

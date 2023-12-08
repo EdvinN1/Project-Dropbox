@@ -1,6 +1,6 @@
 package com.example.projectdropbox.services;
 
-import com.example.projectdropbox.FolderNotFoundException;
+import com.example.projectdropbox.Exceptions.FolderNotFoundException;
 import com.example.projectdropbox.models.Folder;
 import com.example.projectdropbox.models.User;
 import com.example.projectdropbox.repositories.FolderRepository;
