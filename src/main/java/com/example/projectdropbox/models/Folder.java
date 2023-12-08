@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity(name = "dropboxFolders")
@@ -17,15 +18,13 @@ public class Folder {
 
     private String folderName;
 
+
+    private Date date;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User owner;
 
     @OneToMany(mappedBy = "folder")
     private List<File> files = new ArrayList<>();
-
-
-    // Lägg till eventuella ytterligare attribut som du behöver
-
-    // Getter och setter
 }

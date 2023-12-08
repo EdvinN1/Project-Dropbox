@@ -12,8 +12,8 @@ import java.util.Date;
 public class FileDTO {
     private int fileId;
     private String fileName;
-    private Long fileSize; // Lägg till detta om du vill inkludera filstorlek
-    private Date createdDate; // Lägg till detta om du vill inkludera skapad tidpunkt
-    private String content; // Länk eller base64-kodning av filinnehållet
+    private Long fileSize;
+    private Date createdDate;
+    private String fileDownloadLink;
 }
 
