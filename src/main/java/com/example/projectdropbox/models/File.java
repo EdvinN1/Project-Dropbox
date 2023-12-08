@@ -27,9 +27,8 @@ public class File {
     @Column(name = "created_date")
     private Date createdDate;
 
-    // Lägg till denna metod
     public Long getFileSize() {
-        return (long) this.content.length; // Detta är bara en exempelmetod. Du kan anpassa den efter dina behov.
+        return (long) this.content.length;
     }
 }
 

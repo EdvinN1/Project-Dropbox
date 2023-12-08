@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Service
@@ -38,6 +39,16 @@ public class FileService {
     public List<File> getAllFiles() {
         return fileRepository.findAll();
     }
+    @Transactional
+    public File getFileById(int fileId) throws FileNotFoundException {
+        return fileRepository.findById(fileId)
+                .orElseThrow(() -> new FileNotFoundException("File not found with id: " + fileId));
+    }
 
+
+    @Transactional
+    public void deleteFile(File file) {
+        fileRepository.delete(file);
+    }
     // Add more methods for file-related operations (download, delete, etc.)
 }

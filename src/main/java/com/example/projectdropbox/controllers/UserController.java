@@ -21,13 +21,6 @@ public class UserController {
         this.authProvider = authProvider;
         this.userService = userService;;
     }
-
-
-    @GetMapping("/new")
-    public String newEndpoint(@AuthenticationPrincipal User user) {
-        return "Your username: " + user.getUsername();
-    }
-
     @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password) {
         try {

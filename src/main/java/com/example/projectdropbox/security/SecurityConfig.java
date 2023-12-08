@@ -30,12 +30,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterAfter(new JWTVerifyFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/test").hasRole("ADMIN")
-                        .requestMatchers("/new").authenticated()
                         .requestMatchers("/folders/create").authenticated()
                         .requestMatchers("/files/upload").authenticated()
                         .requestMatchers("/files/files").permitAll()
                         .requestMatchers("/files/folder/{folderId}").authenticated()
+                        .requestMatchers("/files/delete/{fileId}").authenticated()
+                        .requestMatchers("/files/download/{fileId}").authenticated()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/login").permitAll());
 
