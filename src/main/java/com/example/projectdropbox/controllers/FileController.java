@@ -33,6 +33,9 @@ public class FileController {
     @Autowired
     private FolderService folderService;
 
+    public FileController(FileService fileService, FolderService folderService) {
+    }
+
     @PostMapping("/upload")
     @Transactional
     public ResponseEntity<String> uploadFile(

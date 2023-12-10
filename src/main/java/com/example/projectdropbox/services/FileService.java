@@ -35,9 +35,6 @@ public class FileService {
             throw new FileUploadException("Failed to upload file.", e);
         }
     }
-    public List<File> getAllFiles() {
-        return fileRepository.findAll();
-    }
     @Transactional
     public File getFileById(int fileId) throws FileNotFoundException {
         return fileRepository.findById(fileId)
@@ -47,5 +44,4 @@ public class FileService {
     public void deleteFile(File file) {
         fileRepository.delete(file);
     }
-    // Add more methods for file-related operations (download, delete, etc.)
 }
